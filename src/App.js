@@ -16,6 +16,7 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      filter: '',
       newCard: [],
     };
   }
@@ -99,9 +100,14 @@ class App extends React.Component {
   deleteCard = (card) => {
     const { newCard } = this.state;
     this.setState({
-      newCard: newCard.filter((call, index) => index !== card),
+      newCard: newCard.filter((_call, index) => index !== card),
     }, () => { this.hasTrunfo(); });
   };
+
+  filterName = (ev) => {
+    this.setState({
+      filter: ev.target.value });
+  }
 
   render() {
     const { cardName,
@@ -115,7 +121,13 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       newCard,
+      filter,
     } = this.state;
+
+    const filterName = newCard.filter((nameItem) => {
+      const selectedName = nameItem.cardName;
+      return selectedName.includes(filter);
+    });
 
     return (
       <div>
@@ -135,6 +147,12 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <h4>Cartas</h4>
+        <input
+          type="text"
+          data-testid="name-filter"
+          onChange={ this.filterName }
+        />
+
         <Card
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -147,7 +165,7 @@ class App extends React.Component {
         />
         <h4>Cartas Salvas</h4>
 
-        { newCard.map((card, index) => (
+        { filterName.map((card, index) => (
           <div key={ index }>
             <Card
               cardName={ card.cardName }

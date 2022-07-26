@@ -96,7 +96,7 @@ class App extends React.Component {
     this.setState({ hasTrunfo });
   };
 
-  removeCard = (card) => {
+  deleteCard = (card) => {
     const { newCard } = this.state;
     this.setState({
       newCard: newCard.filter((call, index) => index !== card),
@@ -162,7 +162,7 @@ class App extends React.Component {
             <button
               type="submit"
               data-testid="delete-button"
-              onClick={ () => this.removeCard(index) }
+              onClick={ () => this.deleteCard(index) }
             >
               Excluir
             </button>

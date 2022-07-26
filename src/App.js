@@ -5,21 +5,21 @@ import Form from './components/Form';
 class App extends React.Component {
   constructor() {
     super();
-    this.onInputChange = this.onInputChange.bind(this);
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
+      newCard: [],
     };
   }
 
-  onInputChange({ target }) {
+  onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({ [name]: value }, () => {
@@ -46,7 +46,46 @@ class App extends React.Component {
     });
   }
 
-  onSaveButtonClick = () => { };
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      newCard,
+    } = this.state;
+
+    const createNewCard = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
+
+    this.setState({
+      newCard: [...newCard, createNewCard] },
+    () => {
+      this.setState({
+        cardName: '',
+        cardDescription: '',
+        cardAttr1: '0',
+        cardAttr2: '0',
+        cardAttr3: '0',
+        cardImage: '',
+        cardRare: '',
+        cardTrunfo: false,
+      });
+    });
+  };
 
   render() {
     const { cardName,
@@ -74,6 +113,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
           cardName={ cardName }

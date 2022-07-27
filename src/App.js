@@ -17,6 +17,7 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       filter: '',
+      filterRare: 'todas',
       newCard: [],
     };
   }
@@ -104,10 +105,10 @@ class App extends React.Component {
     }, () => { this.hasTrunfo(); });
   };
 
-  filterName = (ev) => {
-    this.setState({
-      filter: ev.target.value });
-  }
+  // filterName = (ev) => {
+  //   this.setState({
+  //     filter: ev.target.value });
+  // }
 
   render() {
     const { cardName,
@@ -122,12 +123,13 @@ class App extends React.Component {
       isSaveButtonDisabled,
       newCard,
       filter,
+      filterRare,
     } = this.state;
 
-    const filterName = newCard.filter((nameItem) => {
-      const selectedName = nameItem.cardName;
-      return selectedName.includes(filter);
-    });
+    const filterName = (filterRare === 'todas')
+      ? newCard.filter((card) => card.cardName.includes(filter))
+      : newCard.filter((card) => card.cardRare === filterRare)
+        .filter((card) => card.cardName.includes(filter));
 
     return (
       <div>
@@ -147,11 +149,31 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <h4>Cartas</h4>
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ this.filterName }
-        />
+
+        <label htmlFor="filter">
+          <input
+            name="filter"
+            type="text"
+            id="filter"
+            data-testid="name-filter"
+            onChange={ this.onInputChange }
+          />
+        </label>
+
+        <label htmlFor="filterRare">
+          <select
+            name="filterRare"
+            value={ filterRare }
+            id="filterRare"
+            data-testid="rare-filter"
+            onChange={ this.onInputChange }
+          >
+            <option key="todas">todas</option>
+            <option key="normal">normal</option>
+            <option key="raro">raro</option>
+            <option key="muito raro">muito raro</option>
+          </select>
+        </label>
 
         <Card
           cardName={ cardName }

@@ -160,6 +160,7 @@ class App extends React.Component {
             data-testid="name-filter"
             onChange={ this.onInputChange }
             disabled={ filterSuper }
+            placeholder="Nome da cartas"
           />
         </label>
 
@@ -171,6 +172,7 @@ class App extends React.Component {
             data-testid="rare-filter"
             onChange={ this.onInputChange }
             disabled={ filterSuper }
+            placeholder="Raridade"
           >
             <option key="todas">todas</option>
             <option key="normal">normal</option>
@@ -188,6 +190,7 @@ class App extends React.Component {
             data-testid="trunfo-filter"
             onChange={ this.onInputChange }
           />
+          Super Trybe Trunfo
         </label>
 
         <Card
